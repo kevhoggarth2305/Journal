@@ -70,8 +70,35 @@ Develop the first statistical baseline model for the environmental monitoring sy
 ### Event Correlation
 
 Comparison against the environmental event log identified:
+* Event Type: HEATER
+* Description: Portable heater
+* Start Time: 2026-10-28 10:30
+* End Time: 2026-10-28 13:30
 
-```text
-2026-10-28 10:30 -> 13:30
-HEATER
-Portable heater
+## Next Actions
+
+* Complete implementation of z-score calculation within the analysis view.
+* Query and visualise readings with extreme z-scores.
+* Overlay expected and actual temperature on existing plots.
+* Add deviation and z-score visualisations.
+* Investigate correlation between anomaly scores and logged events.
+* Automate overnight baseline regeneration.
+* Expand dataset beyond two weeks to improve baseline accuracy.
+* Explore day-of-week baselines.
+* Investigate humidity and pressure baseline models.
+
+## Reflections
+
+This session marked an important transition in the Weather Station project from simple environmental monitoring towards predictive environmental modelling. Previous work focused primarily on collecting, storing and visualising environmental observations. Today's activities shifted attention towards defining what constitutes normal behaviour within the monitored environment.
+
+The development of a baseline temperature model represents a significant step forward. Rather than simply reporting the current temperature, the system can now determine whether a measurement is typical for a given time of day. This transforms the weather station from a passive data logger into a platform capable of supporting anomaly detection and future forecasting.
+
+The introduction of standard deviation calculations proved particularly valuable. Analysis showed that environmental variability changes considerably throughout the day. Overnight conditions remain highly predictable with relatively small variation, while daytime conditions exhibit much larger fluctuations driven by occupancy, heating and natural environmental influences. This observation reinforces the value of using statistical measures such as z-scores rather than simple fixed thresholds when identifying anomalies.
+
+The most rewarding outcome of the session was the successful validation of the baseline model. The largest temperature deviations identified by the analysis corresponded directly to a documented heater event recorded in the environmental events log. The model highlighted the period as unusual without any prior knowledge of the event itself, demonstrating that it is detecting genuine environmental changes rather than random measurement noise.
+
+Several useful technical lessons were also learned. Investigation of timestamp drift revealed how small execution-time overheads accumulate over long periods when using fixed sleep intervals. While the drift is not operationally significant for this project, understanding its effects improved confidence in the interpretation of the data and influenced the decision to aggregate readings into fifteen-minute baseline buckets.
+
+In addition, the growing complexity of database objects highlighted the advantages of maintaining SQL definitions within dedicated `.sql` files rather than entering long statements interactively. This approach improves repeatability, supports version control and aligns more closely with professional development practices.
+
+Overall, the session represents one of the most significant milestones in the project so far. The weather station now possesses a statistically derived understanding of typical environmental behaviour, providing the foundation required for anomaly detection, event impact analysis, confidence intervals and future predictive modelling. The project continues its evolution from environmental monitoring towards genuine environmental data science.
